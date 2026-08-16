@@ -1,0 +1,67 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+ENV/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Frontend build
+dist/
+build/
+.next/
+
+# IDE
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Data
+05-data/raw/*
+05-data/processed/*
+05-data/chunks/*
+05-data/indexes/*
+
+# Evaluation generated results
+06-evaluation/results/*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Secrets / credentials
+*.pem
+*.key
+credentials.json
+service-account*.json
+
+# Docker
+.docker/
+
+# Coverage
+.coverage
+htmlcov/
