@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoquery.dev/contracts/transcript.schema.json",
+  "title": "EchoQuery Transcript",
+  "description": "Normalized speech-to-text output produced by an STT provider.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "text",
+    "language",
+    "is_final",
+    "provider"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "Unique identifier for the request/session."
+    },
+    "text": {
+      "type": "string",
+      "description": "Transcribed text."
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en-IN",
+        "hi-IN",
+        "bn-IN",
+        "ta-IN",
+        "te-IN",
+        "kn-IN",
+        "ml-IN",
+        "mr-IN",
+        "gu-IN",
+        "pa-IN",
+        "od-IN"
+      ],
+      "description": "Detected or explicitly requested language supported by EchoQuery."
+    },
+    "is_final": {
+      "type": "boolean",
+      "description": "Whether this transcript represents a finalized transcription segment."
+    },
+    "provider": {
+      "type": "string",
+      "enum": [
+        "sarvam",
+        "voxtral"
+      ],
+      "description": "STT provider that produced the transcript."
+    },
+    "confidence": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Provider confidence score when available."
+    },
+    "timestamp_ms": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Timestamp associated with this transcript segment."
+    },
+    "duration_ms": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Duration of the corresponding audio segment."
+    }
+  }
+}

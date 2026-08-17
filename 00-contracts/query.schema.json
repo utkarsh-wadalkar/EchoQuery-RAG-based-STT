@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoquery.dev/contracts/query.schema.json",
+  "title": "EchoQuery Query",
+  "description": "Normalized query submitted to the EchoQuery RAG pipeline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "query",
+    "language"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "query": {
+      "type": "string",
+      "minLength": 1,
+      "description": "User query submitted to the RAG pipeline."
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en-IN",
+        "hi-IN",
+        "bn-IN",
+        "ta-IN",
+        "te-IN",
+        "kn-IN",
+        "ml-IN",
+        "mr-IN",
+        "gu-IN",
+        "pa-IN",
+        "od-IN"
+      ]
+    },
+    "top_k": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 5
+    },
+    "session_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  }
+}

@@ -1,0 +1,268 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoquery.dev/contracts/websocket-server-events.schema.json",
+  "title": "EchoQuery WebSocket Server Event",
+  "description": "Events emitted by the EchoQuery FastAPI WebSocket server to the frontend.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/transcript"
+    },
+    {
+      "$ref": "#/$defs/processing"
+    },
+    {
+      "$ref": "#/$defs/answer"
+    },
+    {
+      "$ref": "#/$defs/error"
+    },
+    {
+      "$ref": "#/$defs/complete"
+    }
+  ],
+  "$defs": {
+    "base": {
+      "type": "object",
+      "required": [
+        "type",
+        "request_id",
+        "timestamp"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+
+    "transcript": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "transcript"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "text",
+                "language",
+                "is_final"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "language": {
+                  "type": "string",
+                  "enum": [
+                    "en-IN",
+                    "hi-IN",
+                    "bn-IN",
+                    "ta-IN",
+                    "te-IN",
+                    "kn-IN",
+                    "ml-IN",
+                    "mr-IN",
+                    "gu-IN",
+                    "pa-IN",
+                    "od-IN"
+                  ]
+                },
+                "is_final": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "required": [
+            "type",
+            "request_id",
+            "timestamp",
+            "data"
+          ]
+        }
+      ]
+    },
+
+    "processing": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "processing"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "stage"
+              ],
+              "properties": {
+                "stage": {
+                  "type": "string",
+                  "enum": [
+                    "transcription",
+                    "preprocessing",
+                    "embedding",
+                    "retrieval",
+                    "reranking",
+                    "generation",
+                    "grounding"
+                  ]
+                }
+              }
+            }
+          },
+          "required": [
+            "type",
+            "request_id",
+            "timestamp",
+            "data"
+          ]
+        }
+      ]
+    },
+
+    "answer": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "answer"
+            },
+            "data": {
+              "$ref": "answer.schema.json"
+            }
+          },
+          "required": [
+            "type",
+            "request_id",
+            "timestamp",
+            "data"
+          ]
+        }
+      ]
+    },
+
+    "error": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "error"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "message"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "enum": [
+                    "INVALID_REQUEST",
+                    "UNSUPPORTED_LANGUAGE",
+                    "STT_ERROR",
+                    "STT_TIMEOUT",
+                    "RAG_ERROR",
+                    "RAG_TIMEOUT",
+                    "NO_RELEVANT_CONTEXT",
+                    "GROUNDING_FAILED",
+                    "CANCELLED",
+                    "INTERNAL_ERROR"
+                  ]
+                },
+                "message": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "retryable": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          "required": [
+            "type",
+            "request_id",
+            "timestamp",
+            "data"
+          ]
+        }
+      ]
+    },
+
+    "complete": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "const": "complete"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "status"
+              ],
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "cancelled",
+                    "failed"
+                  ]
+                }
+              }
+            }
+          },
+          "required": [
+            "type",
+            "request_id",
+            "timestamp",
+            "data"
+          ]
+        }
+      ]
+    }
+  }
+}
+

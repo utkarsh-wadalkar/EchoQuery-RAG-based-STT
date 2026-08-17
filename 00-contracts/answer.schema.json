@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoquery.dev/contracts/answer.schema.json",
+  "title": "EchoQuery Answer",
+  "description": "Grounded answer returned by the EchoQuery RAG pipeline.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "answer",
+    "language",
+    "grounded",
+    "sources",
+    "latency"
+  ],
+  "properties": {
+    "request_id": {
+      "type": "string"
+    },
+    "answer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "en-IN",
+        "hi-IN",
+        "bn-IN",
+        "ta-IN",
+        "te-IN",
+        "kn-IN",
+        "ml-IN",
+        "mr-IN",
+        "gu-IN",
+        "pa-IN",
+        "od-IN"
+      ]
+    },
+    "grounded": {
+      "type": "boolean",
+      "description": "Whether the generated answer passed the grounding/validation checks."
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "latency": {
+      "$ref": "#/$defs/latency"
+    }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "text",
+        "score"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "latency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_ms"
+      ],
+      "properties": {
+        "total_ms": {
+          "type": "number",
+          "minimum": 0
+        },
+        "embedding_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "retrieval_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "reranking_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "generation_ms": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    }
+  }
+}
