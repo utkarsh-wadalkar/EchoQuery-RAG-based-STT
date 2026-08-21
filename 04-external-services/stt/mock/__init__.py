@@ -1,0 +1,1 @@
+"""Mock STT provider package."""

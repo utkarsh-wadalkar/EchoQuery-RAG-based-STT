@@ -1,0 +1,1 @@
+"""Voxtral STT provider package."""
